@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Novo Plano{% endblock %}
+{% block content %}
+<div class="form-card">
+    <h1>Cadastrar Plano</h1>
+    <form method="POST">
+        <label>Nome do plano</label>
+        <input type="text" name="nome" placeholder="Ex: Premium" required>
+
+        <label>Valor</label>
+        <input type="text" name="valor" placeholder="Ex: 119.90" required>
+
+        <label>Duração em meses</label>
+        <input type="number" name="duracao_meses" min="1" required>
+
+        <button class="btn success" type="submit">Salvar</button>
+        <a class="btn secondary" href="{{ url_for('listar_planos') }}">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

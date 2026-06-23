@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Editar Plano{% endblock %}
+{% block content %}
+<div class="form-card">
+    <h1>Editar Plano</h1>
+    <form method="POST">
+        <label>Nome do plano</label>
+        <input type="text" name="nome" value="{{ plano.nome }}" required>
+
+        <label>Valor</label>
+        <input type="text" name="valor" value="{{ plano.valor }}" required>
+
+        <label>Duração em meses</label>
+        <input type="number" name="duracao_meses" value="{{ plano.duracao_meses }}" min="1" required>
+
+        <button class="btn primary" type="submit">Atualizar</button>
+        <a class="btn secondary" href="{{ url_for('listar_planos') }}">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

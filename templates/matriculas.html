@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Matrículas{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1>Matrículas</h1>
+        <p>Controle as matrículas dos alunos.</p>
+    </div>
+    <a class="btn success" href="{{ url_for('nova_matricula') }}">Nova Matrícula</a>
+</div>
+
+<div class="table-box">
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Aluno</th>
+                <th>Data de Início</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for matricula in matriculas %}
+            <tr>
+                <td>{{ matricula.id }}</td>
+                <td>{{ matricula.aluno.nome }}</td>
+                <td>{{ matricula.data_inicio.strftime('%d/%m/%Y') if matricula.data_inicio else '-' }}</td>
+                <td><span class="badge">{{ matricula.status }}</span></td>
+                <td>
+                    <a class="btn small danger" href="{{ url_for('excluir_matricula', id=matricula.id) }}" onclick="return confirmarExclusao('Deseja realmente excluir esta matrícula?')">Excluir</a>
+                </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="5">Nenhuma matrícula cadastrada.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

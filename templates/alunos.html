@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Alunos{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1>Lista de Alunos</h1>
+        <p>Gerencie os alunos cadastrados.</p>
+    </div>
+    <a class="btn success" href="{{ url_for('novo_aluno') }}">Cadastrar Novo Aluno</a>
+</div>
+
+<input id="busca" class="search" type="text" placeholder="Pesquisar aluno...">
+
+<div class="table-box">
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>CPF</th>
+                <th>Telefone</th>
+                <th>Email</th>
+                <th>Plano</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for aluno in alunos %}
+            <tr>
+                <td>{{ aluno.id }}</td>
+                <td>{{ aluno.nome }}</td>
+                <td>{{ aluno.cpf }}</td>
+                <td>{{ aluno.telefone }}</td>
+                <td>{{ aluno.email }}</td>
+                <td>{{ aluno.plano.nome if aluno.plano else 'Sem plano' }}</td>
+                <td><span class="badge">{{ aluno.status }}</span></td>
+                <td class="actions">
+                    <a class="btn small primary" href="{{ url_for('editar_aluno', id=aluno.id) }}">Editar</a>
+                    <a class="btn small danger" href="{{ url_for('excluir_aluno', id=aluno.id) }}" onclick="return confirmarExclusao('Deseja realmente excluir este aluno?')">Excluir</a>
+                </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="8">Nenhum aluno cadastrado.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

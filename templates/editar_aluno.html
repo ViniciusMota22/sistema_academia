@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Editar Aluno{% endblock %}
+{% block content %}
+<div class="form-card">
+    <h1>Editar Aluno</h1>
+    <form method="POST">
+        <label>Nome</label>
+        <input type="text" name="nome" value="{{ aluno.nome }}" required>
+
+        <label>CPF</label>
+        <input type="text" name="cpf" value="{{ aluno.cpf }}" required maxlength="14">
+
+        <label>Telefone</label>
+        <input type="text" name="telefone" value="{{ aluno.telefone }}" maxlength="15">
+
+        <label>Email</label>
+        <input type="email" name="email" value="{{ aluno.email }}">
+
+        <label>Plano</label>
+        <select name="plano_id">
+            <option value="">Selecione um plano</option>
+            {% for plano in planos %}
+                <option value="{{ plano.id }}" {% if aluno.plano_id == plano.id %}selected{% endif %}>{{ plano.nome }} - R$ {{ '%.2f'|format(plano.valor) }}</option>
+            {% endfor %}
+        </select>
+
+        <label>Status</label>
+        <select name="status">
+            <option value="Ativo" {% if aluno.status == 'Ativo' %}selected{% endif %}>Ativo</option>
+            <option value="Inativo" {% if aluno.status == 'Inativo' %}selected{% endif %}>Inativo</option>
+        </select>
+
+        <button class="btn primary" type="submit">Atualizar</button>
+        <a class="btn secondary" href="{{ url_for('listar_alunos') }}">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

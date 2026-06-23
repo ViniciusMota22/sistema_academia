@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Novo Aluno{% endblock %}
+{% block content %}
+<div class="form-card">
+    <h1>Cadastrar Aluno</h1>
+    <form method="POST">
+        <label>Nome</label>
+        <input type="text" name="nome" required>
+
+        <label>CPF</label>
+        <input type="text" name="cpf" required maxlength="14">
+
+        <label>Telefone</label>
+        <input type="text" name="telefone" maxlength="15">
+
+        <label>Email</label>
+        <input type="email" name="email">
+
+        <label>Plano</label>
+        <select name="plano_id">
+            <option value="">Selecione um plano</option>
+            {% for plano in planos %}
+                <option value="{{ plano.id }}">{{ plano.nome }} - R$ {{ '%.2f'|format(plano.valor) }}</option>
+            {% endfor %}
+        </select>
+
+        <label>Status</label>
+        <select name="status">
+            <option value="Ativo">Ativo</option>
+            <option value="Inativo">Inativo</option>
+        </select>
+
+        <button class="btn success" type="submit">Salvar</button>
+        <a class="btn secondary" href="{{ url_for('listar_alunos') }}">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

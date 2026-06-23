@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Nova Matrícula{% endblock %}
+{% block content %}
+<div class="form-card">
+    <h1>Nova Matrícula</h1>
+    <form method="POST">
+        <label>Aluno</label>
+        <select name="aluno_id" required>
+            <option value="">Selecione um aluno</option>
+            {% for aluno in alunos %}
+                <option value="{{ aluno.id }}">{{ aluno.nome }}</option>
+            {% endfor %}
+        </select>
+
+        <label>Data de início</label>
+        <input type="date" name="data_inicio" required>
+
+        <label>Status</label>
+        <select name="status">
+            <option value="Ativa">Ativa</option>
+            <option value="Cancelada">Cancelada</option>
+            <option value="Pendente">Pendente</option>
+        </select>
+
+        <button class="btn success" type="submit">Salvar</button>
+        <a class="btn secondary" href="{{ url_for('listar_matriculas') }}">Cancelar</a>
+    </form>
+</div>
+{% endblock %}
