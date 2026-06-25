@@ -69,7 +69,6 @@ Copie o `.env.example` e renomeie a cópia para `.env`.
 
 ```env
 DATABASE_URL=sua_string_de_conexao_postgresql
-SECRET_KEY=sua_chave_secreta
 ```
 
 ### 4. Executar
