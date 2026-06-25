@@ -49,7 +49,7 @@ def home():
         {"nome": plano.nome, "total": len(plano.alunos)}
         for plano in planos
     ]
-    maior_total_plano = max((item["total"] for item in planos_resumo), default=1)
+    maior_total_plano = max(max((item["total"] for item in planos_resumo), default=0), 1)
 
     return render_template(
         "index.html",

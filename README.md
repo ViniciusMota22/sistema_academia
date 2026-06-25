@@ -69,6 +69,7 @@ Copie o `.env.example` e renomeie a cópia para `.env`.
 
 ```env
 DATABASE_URL=sua_string_de_conexao_postgresql
+SECRET_KEY=sua_chave_secreta
 ```
 
 ### 4. Executar
@@ -89,6 +90,7 @@ http://127.0.0.1:5000
 - Start Command: `gunicorn app:app`
 - Environment Variables:
   - `DATABASE_URL`
+  - `SECRET_KEY`
 
 O arquivo `.env` e a pasta `venv` já estão protegidos pelo `.gitignore` e não devem ser enviados ao GitHub.
 
