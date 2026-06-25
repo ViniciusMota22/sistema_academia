@@ -1,49 +1,8 @@
 {% extends "base.html" %}
-{% block title %}Alunos{% endblock %}
+{% block title %}Alunos - Sistema Academia{% endblock %}
+{% block page_title %}Alunos{% endblock %}
 {% block content %}
-<div class="page-header">
-    <div>
-        <h1>Lista de Alunos</h1>
-        <p>Gerencie os alunos cadastrados.</p>
-    </div>
-    <a class="btn success" href="{{ url_for('novo_aluno') }}">Cadastrar Novo Aluno</a>
-</div>
-
-<input id="busca" class="search" type="text" placeholder="Pesquisar aluno...">
-
-<div class="table-box">
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>CPF</th>
-                <th>Telefone</th>
-                <th>Email</th>
-                <th>Plano</th>
-                <th>Status</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for aluno in alunos %}
-            <tr>
-                <td>{{ aluno.id }}</td>
-                <td>{{ aluno.nome }}</td>
-                <td>{{ aluno.cpf }}</td>
-                <td>{{ aluno.telefone }}</td>
-                <td>{{ aluno.email }}</td>
-                <td>{{ aluno.plano.nome if aluno.plano else 'Sem plano' }}</td>
-                <td><span class="badge">{{ aluno.status }}</span></td>
-                <td class="actions">
-                    <a class="btn small primary" href="{{ url_for('editar_aluno', id=aluno.id) }}">Editar</a>
-                    <a class="btn small danger" href="{{ url_for('excluir_aluno', id=aluno.id) }}" onclick="return confirmarExclusao('Deseja realmente excluir este aluno?')">Excluir</a>
-                </td>
-            </tr>
-            {% else %}
-            <tr><td colspan="8">Nenhum aluno cadastrado.</td></tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+<section class="page-intro"><div><span class="eyebrow dark-eyebrow">Gestão de alunos</span><h1>Alunos cadastrados</h1><p>Pesquise, atualize e acompanhe todos os alunos da academia.</p></div><a class="btn success" href="{{ url_for('novo_aluno') }}"><img src="{{ url_for('static', filename='img/ui/plus.svg') }}" alt="">Cadastrar aluno</a></section>
+<div class="search-box"><img src="{{ url_for('static', filename='img/ui/search.svg') }}" alt=""><input id="busca" type="search" placeholder="Pesquisar por nome, CPF, e-mail ou plano..."></div>
+<div class="table-card"><table><thead><tr><th>ID</th><th>Aluno</th><th>CPF</th><th>Telefone</th><th>E-mail</th><th>Plano</th><th>Status</th><th>Ações</th></tr></thead><tbody>{% for aluno in alunos %}<tr><td>#{{ aluno.id }}</td><td><div class="identity"><div class="table-avatar webp-avatar"><img src="{{ url_for('static', filename='img/webp/alunos-grupo.webp') }}" alt="Aluno"></div><strong>{{ aluno.nome }}</strong></div></td><td>{{ aluno.cpf }}</td><td>{{ aluno.telefone or '-' }}</td><td>{{ aluno.email or '-' }}</td><td>{{ aluno.plano.nome if aluno.plano else 'Sem plano' }}</td><td><span class="pill {{ 'pill-success' if aluno.status == 'Ativo' else 'pill-danger' }}">{{ aluno.status }}</span></td><td><div class="row-actions"><a class="action-button edit" href="{{ url_for('editar_aluno', id=aluno.id) }}"><img src="{{ url_for('static', filename='img/ui/edit.svg') }}" alt="">Editar</a><button class="action-button delete js-delete" data-delete-url="{{ url_for('excluir_aluno', id=aluno.id) }}" data-delete-message="Excluir o aluno {{ aluno.nome }} e suas matrículas?"><img src="{{ url_for('static', filename='img/ui/trash.svg') }}" alt="">Excluir</button></div></td></tr>{% else %}<tr><td colspan="8"><div class="empty-table visual-empty table-empty"><img src="{{ url_for('static', filename='img/webp/alunos-grupo.webp') }}" alt="Alunos"><div><strong>Nenhum aluno cadastrado</strong><small>Cadastre o primeiro aluno para gerar uma matrícula automaticamente.</small></div><a class="btn primary" href="{{ url_for('novo_aluno') }}">Cadastrar aluno</a></div></td></tr>{% endfor %}</tbody></table></div>
 {% endblock %}

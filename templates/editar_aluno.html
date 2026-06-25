@@ -1,37 +1,6 @@
 {% extends "base.html" %}
-{% block title %}Editar Aluno{% endblock %}
+{% block title %}Editar Aluno - Sistema Academia{% endblock %}
+{% block page_title %}Editar aluno{% endblock %}
 {% block content %}
-<div class="form-card">
-    <h1>Editar Aluno</h1>
-    <form method="POST">
-        <label>Nome</label>
-        <input type="text" name="nome" value="{{ aluno.nome }}" required>
-
-        <label>CPF</label>
-        <input type="text" name="cpf" value="{{ aluno.cpf }}" required maxlength="14">
-
-        <label>Telefone</label>
-        <input type="text" name="telefone" value="{{ aluno.telefone }}" maxlength="15">
-
-        <label>Email</label>
-        <input type="email" name="email" value="{{ aluno.email }}">
-
-        <label>Plano</label>
-        <select name="plano_id">
-            <option value="">Selecione um plano</option>
-            {% for plano in planos %}
-                <option value="{{ plano.id }}" {% if aluno.plano_id == plano.id %}selected{% endif %}>{{ plano.nome }} - R$ {{ '%.2f'|format(plano.valor) }}</option>
-            {% endfor %}
-        </select>
-
-        <label>Status</label>
-        <select name="status">
-            <option value="Ativo" {% if aluno.status == 'Ativo' %}selected{% endif %}>Ativo</option>
-            <option value="Inativo" {% if aluno.status == 'Inativo' %}selected{% endif %}>Inativo</option>
-        </select>
-
-        <button class="btn primary" type="submit">Atualizar</button>
-        <a class="btn secondary" href="{{ url_for('listar_alunos') }}">Cancelar</a>
-    </form>
-</div>
+<section class="form-layout"><div class="form-side"><div class="form-side-icon"><img src="{{ url_for('static', filename='img/webp/gestao-alunos.webp') }}" alt=""></div><span>Atualização cadastral</span><h1>{{ aluno.nome }}</h1><p>Atualize os dados pessoais, plano e situação do aluno.</p><ul><li>ID do cadastro: #{{ aluno.id }}</li><li>Plano atual: {{ aluno.plano.nome if aluno.plano else 'Sem plano' }}</li><li>Status atual: {{ aluno.status }}</li></ul></div><div class="form-card"><form method="POST"><div class="field-grid"><div class="field full"><label>Nome completo</label><input type="text" name="nome" value="{{ aluno.nome }}" required></div><div class="field"><label>CPF</label><input type="text" name="cpf" value="{{ aluno.cpf }}" maxlength="14" required></div><div class="field"><label>Telefone</label><input type="text" name="telefone" value="{{ aluno.telefone or '' }}" maxlength="15"></div><div class="field full"><label>E-mail</label><input type="email" name="email" value="{{ aluno.email or '' }}"></div><div class="field"><label>Plano</label><select name="plano_id"><option value="">Selecione um plano</option>{% for plano in planos %}<option value="{{ plano.id }}" {% if aluno.plano_id == plano.id %}selected{% endif %}>{{ plano.nome }} — R$ {{ '%.2f'|format(plano.valor) }}</option>{% endfor %}</select></div><div class="field"><label>Status</label><select name="status"><option value="Ativo" {% if aluno.status == 'Ativo' %}selected{% endif %}>Ativo</option><option value="Inativo" {% if aluno.status == 'Inativo' %}selected{% endif %}>Inativo</option></select></div></div><div class="form-actions"><a class="btn secondary" href="{{ url_for('listar_alunos') }}">Cancelar</a><button class="btn primary" type="submit">Salvar alterações</button></div></form></div></section>
 {% endblock %}

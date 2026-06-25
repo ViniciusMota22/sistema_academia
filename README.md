@@ -1,62 +1,102 @@
-# Sistema Academia
+# Sistema Academia — Versão Premium
 
-Projeto final de Banco de Dados desenvolvido com Flask, SQLAlchemy e PostgreSQL Neon.
+Sistema web para gerenciamento de academia, desenvolvido com Flask, SQLAlchemy e PostgreSQL.
 
 ## Funcionalidades
 
-- Dashboard com estatísticas
-- CRUD completo de Alunos
-- CRUD completo de Planos
-- Cadastro e listagem de Matrículas
+- Dashboard moderno com indicadores, gráficos e registros recentes
+- CRUD completo de alunos
+- CRUD completo de planos
+- Listagem e cadastro manual de matrículas
+- Matrícula gerada automaticamente ao cadastrar um aluno
+- Bloqueio de matrícula manual duplicada
 - Pesquisa de alunos em tempo real
-- Máscara automática de CPF e telefone com JavaScript
-- Layout responsivo com HTML e CSS
-- Conexão com banco PostgreSQL Neon
+- Máscaras automáticas de CPF e telefone
+- Modal personalizado para confirmar exclusões
+- Tema claro e escuro
+- Layout responsivo para computador e celular
+- Pronto para GitHub e Render
 
 ## Tecnologias
 
 - Python
 - Flask
-- SQLAlchemy
-- PostgreSQL Neon
-- HTML
-- CSS
+- Flask-SQLAlchemy
+- PostgreSQL
+- HTML5
+- CSS3
 - JavaScript
+- Gunicorn
+- Render
 
-## Como rodar o projeto
+## Estrutura principal
 
-1. Crie e ative o ambiente virtual:
+```text
+sistema_academia/
+├── app.py
+├── config.py
+├── models.py
+├── requirements.txt
+├── Procfile
+├── render.yaml
+├── .env.example
+├── static/
+│   ├── css/style.css
+│   ├── js/script.js
+│   ├── img/
+│   └── media/
+└── templates/
+```
 
-```bash
+## Como executar localmente
+
+### 1. Criar o ambiente virtual
+
+```powershell
 python -m venv venv
 .\venv\Scripts\Activate.ps1
 ```
 
-2. Instale as dependências:
+### 2. Instalar as dependências
 
-```bash
+```powershell
 pip install -r requirements.txt
 ```
 
-3. Crie o arquivo `.env` na raiz do projeto:
+### 3. Criar o arquivo `.env`
+
+Copie o `.env.example` e renomeie a cópia para `.env`.
 
 ```env
-DATABASE_URL=sua_string_do_neon
+DATABASE_URL=sua_string_de_conexao_postgresql
 SECRET_KEY=sua_chave_secreta
 ```
 
-4. Execute o sistema:
+### 4. Executar
 
-```bash
+```powershell
 python app.py
 ```
 
-5. Acesse no navegador:
+Acesse:
 
-```txt
+```text
 http://127.0.0.1:5000
 ```
 
+## Deploy no Render
+
+- Build Command: `pip install -r requirements.txt`
+- Start Command: `gunicorn app:app`
+- Environment Variables:
+  - `DATABASE_URL`
+
+O arquivo `.env` e a pasta `venv` já estão protegidos pelo `.gitignore` e não devem ser enviados ao GitHub.
+
 ## Autor
 
-- Vinícius
+Vinícius Costa
+
+## Pacote visual WebP
+
+Esta versão utiliza imagens WebP otimizadas em `static/img/webp/` para o banner do dashboard, cards, telas vazias e planos Básico, Premium e VIP. Os arquivos foram preparados com transparência quando necessário para reduzir o peso sem perder o visual.

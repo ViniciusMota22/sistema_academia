@@ -1,37 +1,6 @@
 {% extends "base.html" %}
-{% block title %}Novo Aluno{% endblock %}
+{% block title %}Novo Aluno - Sistema Academia{% endblock %}
+{% block page_title %}Cadastrar aluno{% endblock %}
 {% block content %}
-<div class="form-card">
-    <h1>Cadastrar Aluno</h1>
-    <form method="POST">
-        <label>Nome</label>
-        <input type="text" name="nome" required>
-
-        <label>CPF</label>
-        <input type="text" name="cpf" required maxlength="14">
-
-        <label>Telefone</label>
-        <input type="text" name="telefone" maxlength="15">
-
-        <label>Email</label>
-        <input type="email" name="email">
-
-        <label>Plano</label>
-        <select name="plano_id">
-            <option value="">Selecione um plano</option>
-            {% for plano in planos %}
-                <option value="{{ plano.id }}">{{ plano.nome }} - R$ {{ '%.2f'|format(plano.valor) }}</option>
-            {% endfor %}
-        </select>
-
-        <label>Status</label>
-        <select name="status">
-            <option value="Ativo">Ativo</option>
-            <option value="Inativo">Inativo</option>
-        </select>
-
-        <button class="btn success" type="submit">Salvar</button>
-        <a class="btn secondary" href="{{ url_for('listar_alunos') }}">Cancelar</a>
-    </form>
-</div>
+<section class="form-layout"><div class="form-side"><div class="form-side-icon"><img src="{{ url_for('static', filename='img/webp/gestao-alunos.webp') }}" alt=""></div><span>Cadastro inteligente</span><h1>Novo aluno</h1><p>Preencha os dados do aluno. Ao concluir, o sistema criará uma matrícula automaticamente com a data atual.</p><ul><li>Matrícula instantânea</li><li>CPF e telefone formatados</li><li>Vinculação opcional ao plano</li></ul></div><div class="form-card"><form method="POST"><div class="field-grid"><div class="field full"><label>Nome completo</label><input type="text" name="nome" placeholder="Digite o nome do aluno" required></div><div class="field"><label>CPF</label><input type="text" name="cpf" placeholder="000.000.000-00" maxlength="14" required></div><div class="field"><label>Telefone</label><input type="text" name="telefone" placeholder="(00) 00000-0000" maxlength="15"></div><div class="field full"><label>E-mail</label><input type="email" name="email" placeholder="aluno@email.com"></div><div class="field"><label>Plano</label><select name="plano_id"><option value="">Selecione um plano</option>{% for plano in planos %}<option value="{{ plano.id }}">{{ plano.nome }} — R$ {{ '%.2f'|format(plano.valor) }}</option>{% endfor %}</select></div><div class="field"><label>Status</label><select name="status"><option value="Ativo">Ativo</option><option value="Inativo">Inativo</option></select></div></div><div class="form-actions"><a class="btn secondary" href="{{ url_for('listar_alunos') }}">Cancelar</a><button class="btn success" type="submit">Salvar e matricular</button></div></form></div></section>
 {% endblock %}

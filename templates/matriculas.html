@@ -1,40 +1,7 @@
 {% extends "base.html" %}
-{% block title %}Matrículas{% endblock %}
+{% block title %}Matrículas - Sistema Academia{% endblock %}
+{% block page_title %}Matrículas{% endblock %}
 {% block content %}
-<div class="page-header">
-    <div>
-        <h1>Matrículas</h1>
-        <p>Controle as matrículas dos alunos.</p>
-    </div>
-    <a class="btn success" href="{{ url_for('nova_matricula') }}">Nova Matrícula</a>
-</div>
-
-<div class="table-box">
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Aluno</th>
-                <th>Data de Início</th>
-                <th>Status</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for matricula in matriculas %}
-            <tr>
-                <td>{{ matricula.id }}</td>
-                <td>{{ matricula.aluno.nome }}</td>
-                <td>{{ matricula.data_inicio.strftime('%d/%m/%Y') if matricula.data_inicio else '-' }}</td>
-                <td><span class="badge">{{ matricula.status }}</span></td>
-                <td>
-                    <a class="btn small danger" href="{{ url_for('excluir_matricula', id=matricula.id) }}" onclick="return confirmarExclusao('Deseja realmente excluir esta matrícula?')">Excluir</a>
-                </td>
-            </tr>
-            {% else %}
-            <tr><td colspan="5">Nenhuma matrícula cadastrada.</td></tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+<section class="page-intro"><div><span class="eyebrow dark-eyebrow">Controle de matrículas</span><h1>Matrículas registradas</h1><p>Novos alunos recebem matrícula automaticamente. O cadastro manual permanece disponível.</p></div><a class="btn secondary" href="{{ url_for('nova_matricula') }}"><img src="{{ url_for('static', filename='img/ui/plus.svg') }}" alt="">Matrícula manual</a></section>
+<div class="table-card"><table><thead><tr><th>ID</th><th>Aluno</th><th>Plano</th><th>Data de início</th><th>Status</th><th>Ações</th></tr></thead><tbody>{% for matricula in matriculas %}<tr><td>#{{ matricula.id }}</td><td><div class="identity"><div class="table-avatar document webp-avatar"><img src="{{ url_for('static', filename='img/webp/cartao-matricula.webp') }}" alt="Matrícula"></div><strong>{{ matricula.aluno.nome }}</strong></div></td><td>{{ matricula.aluno.plano.nome if matricula.aluno.plano else 'Sem plano' }}</td><td>{{ matricula.data_inicio.strftime('%d/%m/%Y') if matricula.data_inicio else '-' }}</td><td><span class="pill pill-info">{{ matricula.status }}</span></td><td><button class="action-button delete js-delete" data-delete-url="{{ url_for('excluir_matricula', id=matricula.id) }}" data-delete-message="Deseja excluir a matrícula de {{ matricula.aluno.nome }}?"><img src="{{ url_for('static', filename='img/ui/trash.svg') }}" alt="">Excluir</button></td></tr>{% else %}<tr><td colspan="6"><div class="empty-table visual-empty table-empty"><img src="{{ url_for('static', filename='img/webp/checklist-matricula.webp') }}" alt="Matrículas"><div><strong>Nenhuma matrícula cadastrada</strong><small>Cadastre um aluno para gerar a matrícula automaticamente.</small></div><a class="btn primary" href="{{ url_for('novo_aluno') }}">Cadastrar aluno</a></div></td></tr>{% endfor %}</tbody></table></div>
 {% endblock %}

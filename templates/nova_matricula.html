@@ -1,29 +1,6 @@
 {% extends "base.html" %}
-{% block title %}Nova Matrícula{% endblock %}
+{% block title %}Nova Matrícula - Sistema Academia{% endblock %}
+{% block page_title %}Matrícula manual{% endblock %}
 {% block content %}
-<div class="form-card">
-    <h1>Nova Matrícula</h1>
-    <form method="POST">
-        <label>Aluno</label>
-        <select name="aluno_id" required>
-            <option value="">Selecione um aluno</option>
-            {% for aluno in alunos %}
-                <option value="{{ aluno.id }}">{{ aluno.nome }}</option>
-            {% endfor %}
-        </select>
-
-        <label>Data de início</label>
-        <input type="date" name="data_inicio" required>
-
-        <label>Status</label>
-        <select name="status">
-            <option value="Ativa">Ativa</option>
-            <option value="Cancelada">Cancelada</option>
-            <option value="Pendente">Pendente</option>
-        </select>
-
-        <button class="btn success" type="submit">Salvar</button>
-        <a class="btn secondary" href="{{ url_for('listar_matriculas') }}">Cancelar</a>
-    </form>
-</div>
+<section class="form-layout"><div class="form-side dark-side"><div class="form-side-icon dark"><img src="{{ url_for('static', filename='img/webp/checklist-matricula.webp') }}" alt=""></div><span>Cadastro manual</span><h1>Nova matrícula</h1><p>Use esta tela somente quando precisar cadastrar uma matrícula manualmente.</p><ul><li>Evita matrículas duplicadas</li><li>Data de início personalizada</li><li>Status controlado</li></ul></div><div class="form-card"><form method="POST"><div class="field-grid"><div class="field full"><label>Aluno</label><select name="aluno_id" required><option value="">Selecione um aluno</option>{% for aluno in alunos %}<option value="{{ aluno.id }}">{{ aluno.nome }}</option>{% endfor %}</select></div><div class="field"><label>Data de início</label><input type="date" name="data_inicio" required></div><div class="field"><label>Status</label><select name="status"><option value="Ativa">Ativa</option><option value="Pendente">Pendente</option><option value="Cancelada">Cancelada</option></select></div></div><div class="form-actions"><a class="btn secondary" href="{{ url_for('listar_matriculas') }}">Cancelar</a><button class="btn success" type="submit">Cadastrar matrícula</button></div></form></div></section>
 {% endblock %}

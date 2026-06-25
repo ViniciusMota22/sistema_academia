@@ -1,33 +1,98 @@
 {% extends "base.html" %}
 {% block title %}Dashboard - Sistema Academia{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
 {% block content %}
-<section class="hero">
-    <h1>Dashboard da Academia</h1>
-    <p>Controle alunos, planos e matrículas usando Flask + PostgreSQL Neon.</p>
-</section>
-
-<section class="cards">
-    <div class="card">
-        <span>Total de Alunos</span>
-        <strong>{{ total_alunos }}</strong>
+<section class="hero premium-hero webp-hero">
+    <div class="hero-bg-webp" aria-hidden="true"></div>
+    <div class="hero-shade"></div>
+    <div class="hero-content">
+        <span class="eyebrow">Painel de desempenho</span>
+        <h1>Gestão completa da sua academia</h1>
+        <p>Cadastros, planos e matrículas organizados em um único ambiente rápido e profissional.</p>
+        <div class="hero-actions">
+            <a class="btn primary" href="{{ url_for('novo_aluno') }}">Cadastrar aluno</a>
+            <a class="btn glass" href="{{ url_for('listar_matriculas') }}">Ver matrículas</a>
+        </div>
     </div>
-    <div class="card">
-        <span>Alunos Ativos</span>
-        <strong>{{ alunos_ativos }}</strong>
-    </div>
-    <div class="card">
-        <span>Planos</span>
-        <strong>{{ total_planos }}</strong>
-    </div>
-    <div class="card">
-        <span>Matrículas</span>
-        <strong>{{ total_matriculas }}</strong>
+    <img class="hero-athlete" src="{{ url_for('static', filename='img/webp/atleta-hero.webp') }}" alt="Atleta da academia">
+    <div class="hero-health">
+        <span class="pulse-dot"></span>
+        <div><strong>Sistema operacional</strong><small>Dados atualizados em tempo real</small></div>
     </div>
 </section>
 
-<section class="quick-actions">
-    <a class="btn primary" href="{{ url_for('novo_aluno') }}">Cadastrar Aluno</a>
-    <a class="btn success" href="{{ url_for('novo_plano') }}">Cadastrar Plano</a>
-    <a class="btn dark" href="{{ url_for('nova_matricula') }}">Nova Matrícula</a>
+<section class="metrics-grid">
+    <article class="metric-card metric-blue">
+        <div class="metric-top"><span>Total de alunos</span><div class="metric-icon metric-webp"><img src="{{ url_for('static', filename='img/webp/alunos-grupo.webp') }}" alt="Grupo de alunos"></div></div>
+        <strong class="counter" data-target="{{ total_alunos }}">0</strong>
+        <small>Cadastros realizados</small>
+    </article>
+    <article class="metric-card metric-green">
+        <div class="metric-top"><span>Alunos ativos</span><div class="metric-icon metric-webp"><img src="{{ url_for('static', filename='img/webp/gestao-alunos.webp') }}" alt="Gestão de alunos"></div></div>
+        <strong class="counter" data-target="{{ alunos_ativos }}">0</strong>
+        <small>{{ percentual_ativos }}% da base de alunos</small>
+    </article>
+    <article class="metric-card metric-amber">
+        <div class="metric-top"><span>Planos</span><div class="metric-icon metric-webp"><img src="{{ url_for('static', filename='img/webp/halter-3d.webp') }}" alt="Halter"></div></div>
+        <strong class="counter" data-target="{{ total_planos }}">0</strong>
+        <small>Opções disponíveis</small>
+    </article>
+    <article class="metric-card metric-violet">
+        <div class="metric-top"><span>Matrículas</span><div class="metric-icon metric-webp"><img src="{{ url_for('static', filename='img/webp/cartao-matricula.webp') }}" alt="Cartão de matrícula"></div></div>
+        <strong class="counter" data-target="{{ total_matriculas }}">0</strong>
+        <small>Automáticas e manuais</small>
+    </article>
+</section>
+
+<section class="dashboard-grid">
+    <article class="panel chart-panel">
+        <div class="panel-heading"><div><span class="panel-kicker">Distribuição</span><h2>Alunos por plano</h2></div><a href="{{ url_for('listar_planos') }}">Gerenciar</a></div>
+        <div class="bar-chart">
+            {% for item in planos_resumo %}
+            <div class="bar-row">
+                <div class="bar-label"><span>{{ item.nome }}</span><strong>{{ item.total }}</strong></div>
+                <div class="bar-track"><span style="--bar-width: {{ ((item.total / maior_total_plano) * 100)|round|int }}%"></span></div>
+            </div>
+            {% else %}
+            <div class="empty-panel visual-empty compact-empty"><img src="{{ url_for('static', filename='img/webp/plano-basico.webp') }}" alt="Plano"><div><strong>Cadastre seu primeiro plano</strong><small>A distribuição de alunos aparecerá aqui.</small></div></div>
+            {% endfor %}
+        </div>
+    </article>
+
+    <article class="panel activity-panel">
+        <div class="panel-heading"><div><span class="panel-kicker">Status geral</span><h2>Saúde da base</h2></div></div>
+        <div class="donut-wrap">
+            <div class="donut" style="--percent: {{ percentual_ativos }}"><span><strong>{{ percentual_ativos }}%</strong><small>ativos</small></span></div>
+            <div class="legend-list">
+                <div><span class="legend-dot active-dot"></span><p><strong>{{ alunos_ativos }}</strong><small>Alunos ativos</small></p></div>
+                <div><span class="legend-dot inactive-dot"></span><p><strong>{{ alunos_inativos }}</strong><small>Alunos inativos</small></p></div>
+            </div>
+        </div>
+    </article>
+</section>
+
+<section class="action-grid webp-actions">
+    <a class="action-card" href="{{ url_for('novo_aluno') }}"><div class="action-image webp-action blue"><img src="{{ url_for('static', filename='img/webp/gestao-alunos.webp') }}" alt="Cadastrar aluno"></div><div><span>Cadastro rápido</span><h3>Novo aluno</h3><p>A matrícula é gerada automaticamente.</p></div><img class="action-arrow" src="{{ url_for('static', filename='img/ui/arrow.svg') }}" alt=""></a>
+    <a class="action-card" href="{{ url_for('novo_plano') }}"><div class="action-image webp-action green"><img src="{{ url_for('static', filename='img/webp/plano-premium.webp') }}" alt="Cadastrar plano"></div><div><span>Configuração</span><h3>Novo plano</h3><p>Defina valor e duração do plano.</p></div><img class="action-arrow" src="{{ url_for('static', filename='img/ui/arrow.svg') }}" alt=""></a>
+    <a class="action-card" href="{{ url_for('listar_matriculas') }}"><div class="action-image webp-action dark"><img src="{{ url_for('static', filename='img/webp/checklist-matricula.webp') }}" alt="Matrículas"></div><div><span>Acompanhamento</span><h3>Matrículas</h3><p>Visualize registros e datas de início.</p></div><img class="action-arrow" src="{{ url_for('static', filename='img/ui/arrow.svg') }}" alt=""></a>
+</section>
+
+<section class="dashboard-grid bottom-grid">
+    <article class="panel">
+        <div class="panel-heading"><div><span class="panel-kicker">Cadastros recentes</span><h2>Últimos alunos</h2></div><a href="{{ url_for('listar_alunos') }}">Ver todos</a></div>
+        <div class="record-list">
+            {% for aluno in alunos_recentes %}
+            <div class="record-item"><div class="record-avatar webp-record"><img src="{{ url_for('static', filename='img/webp/alunos-grupo.webp') }}" alt="Aluno"></div><div class="record-copy"><strong>{{ aluno.nome }}</strong><small>{{ aluno.plano.nome if aluno.plano else 'Sem plano definido' }}</small></div><span class="pill {{ 'pill-success' if aluno.status == 'Ativo' else 'pill-danger' }}">{{ aluno.status }}</span></div>
+            {% else %}<div class="empty-panel visual-empty"><img src="{{ url_for('static', filename='img/webp/alunos-grupo.webp') }}" alt="Alunos"><div><strong>Nenhum aluno cadastrado</strong><small>Cadastre o primeiro aluno para começar.</small></div></div>{% endfor %}
+        </div>
+    </article>
+    <article class="panel">
+        <div class="panel-heading"><div><span class="panel-kicker">Movimentações</span><h2>Matrículas recentes</h2></div><a href="{{ url_for('listar_matriculas') }}">Ver todas</a></div>
+        <div class="record-list">
+            {% for matricula in matriculas_recentes %}
+            <div class="record-item"><div class="record-avatar document webp-record"><img src="{{ url_for('static', filename='img/webp/cartao-matricula.webp') }}" alt="Matrícula"></div><div class="record-copy"><strong>{{ matricula.aluno.nome }}</strong><small>{{ matricula.data_inicio.strftime('%d/%m/%Y') if matricula.data_inicio else '-' }}</small></div><span class="pill pill-info">{{ matricula.status }}</span></div>
+            {% else %}<div class="empty-panel visual-empty"><img src="{{ url_for('static', filename='img/webp/checklist-matricula.webp') }}" alt="Matrículas"><div><strong>Nenhuma matrícula registrada</strong><small>Uma matrícula será criada junto ao próximo aluno.</small></div></div>{% endfor %}
+        </div>
+    </article>
 </section>
 {% endblock %}

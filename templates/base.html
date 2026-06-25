@@ -1,33 +1,111 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#091226">
     <title>{% block title %}Sistema Academia{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="brand">🏋️ Sistema Academia</div>
-        <div class="links">
-            <a href="{{ url_for('home') }}">Início</a>
-            <a href="{{ url_for('listar_alunos') }}">Alunos</a>
-            <a href="{{ url_for('listar_planos') }}">Planos</a>
-            <a href="{{ url_for('listar_matriculas') }}">Matrículas</a>
+    <div class="ambient-bg"></div>
+
+    <aside class="sidebar" id="sidebar">
+        <a class="brand" href="{{ url_for('home') }}">
+            <span class="brand-mark"><img src="{{ url_for('static', filename='img/halter.svg') }}" alt="Halter"></span>
+            <span class="brand-copy">
+                <strong>Sistema Academia</strong>
+                <small>Gestão inteligente</small>
+            </span>
+        </a>
+
+        <nav class="side-nav">
+            <span class="nav-label">Navegação</span>
+            <a href="{{ url_for('home') }}" data-route="/">
+                <img src="{{ url_for('static', filename='img/ui/home.svg') }}" alt="">
+                <span>Dashboard</span>
+            </a>
+            <a href="{{ url_for('listar_alunos') }}" data-route="/alunos">
+                <img src="{{ url_for('static', filename='img/ui/users.svg') }}" alt="">
+                <span>Alunos</span>
+            </a>
+            <a href="{{ url_for('listar_planos') }}" data-route="/planos">
+                <img src="{{ url_for('static', filename='img/ui/plans.svg') }}" alt="">
+                <span>Planos</span>
+            </a>
+            <a href="{{ url_for('listar_matriculas') }}" data-route="/matriculas">
+                <img src="{{ url_for('static', filename='img/ui/enroll.svg') }}" alt="">
+                <span>Matrículas</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-note">
+            <div class="note-icon note-icon-webp"><img src="{{ url_for('static', filename='img/webp/cartao-matricula.webp') }}" alt="Cartão de matrícula"></div>
+            <div>
+                <strong>Matrícula automática</strong>
+                <p>Todo novo aluno recebe uma matrícula ao ser cadastrado.</p>
+            </div>
         </div>
-    </nav>
 
-    <main class="container">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert {{ category }}">{{ message }}</div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
+        <div class="sidebar-footer">
+            <span class="status-dot"></span>
+            <div><strong>Sistema online</strong><small>Banco conectado</small></div>
+        </div>
+    </aside>
 
-        {% block content %}{% endblock %}
-    </main>
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <div class="app-shell">
+        <header class="topbar">
+            <button class="icon-button mobile-menu" id="menuButton" aria-label="Abrir menu">
+                <img src="{{ url_for('static', filename='img/ui/menu.svg') }}" alt="">
+            </button>
+            <div class="topbar-copy">
+                <strong>{% block page_title %}Visão geral{% endblock %}</strong>
+                <small id="currentDate">Carregando data...</small>
+            </div>
+            <div class="topbar-actions">
+                <a class="quick-add" href="{{ url_for('novo_aluno') }}">
+                    <img src="{{ url_for('static', filename='img/ui/plus.svg') }}" alt="">
+                    <span>Novo aluno</span>
+                </a>
+                <button class="icon-button theme-toggle" id="themeToggle" aria-label="Alternar tema">
+                    <img class="moon-icon" src="{{ url_for('static', filename='img/ui/moon.svg') }}" alt="">
+                    <img class="sun-icon" src="{{ url_for('static', filename='img/ui/sun.svg') }}" alt="">
+                </button>
+            </div>
+        </header>
+
+        <main class="content-area">
+            <div class="toast-stack">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="toast {{ category }}">
+                                <span class="toast-icon"><img src="{{ url_for('static', filename='img/ui/check.svg') }}" alt=""></span>
+                                <span>{{ message }}</span>
+                                <button type="button" class="toast-close">×</button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+
+    <div class="modal" id="deleteModal" aria-hidden="true">
+        <div class="modal-backdrop" data-close-modal></div>
+        <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle">
+            <div class="modal-icon"><img src="{{ url_for('static', filename='img/ui/trash.svg') }}" alt=""></div>
+            <h2 id="deleteModalTitle">Confirmar exclusão</h2>
+            <p id="deleteModalMessage">Essa ação não poderá ser desfeita.</p>
+            <div class="modal-actions">
+                <button class="btn secondary" type="button" data-close-modal>Cancelar</button>
+                <a class="btn danger" id="confirmDeleteButton" href="#">Excluir</a>
+            </div>
+        </div>
+    </div>
 
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>

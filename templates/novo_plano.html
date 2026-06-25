@@ -1,20 +1,6 @@
 {% extends "base.html" %}
-{% block title %}Novo Plano{% endblock %}
+{% block title %}Novo Plano - Sistema Academia{% endblock %}
+{% block page_title %}Cadastrar plano{% endblock %}
 {% block content %}
-<div class="form-card">
-    <h1>Cadastrar Plano</h1>
-    <form method="POST">
-        <label>Nome do plano</label>
-        <input type="text" name="nome" placeholder="Ex: Premium" required>
-
-        <label>Valor</label>
-        <input type="text" name="valor" placeholder="Ex: 119.90" required>
-
-        <label>Duração em meses</label>
-        <input type="number" name="duracao_meses" min="1" required>
-
-        <button class="btn success" type="submit">Salvar</button>
-        <a class="btn secondary" href="{{ url_for('listar_planos') }}">Cancelar</a>
-    </form>
-</div>
+<section class="form-layout"><div class="form-side amber-side"><div class="form-side-icon amber"><img src="{{ url_for('static', filename='img/webp/plano-premium.webp') }}" alt=""></div><span>Estrutura comercial</span><h1>Novo plano</h1><p>Defina uma opção clara para seus alunos, com valor e duração.</p><ul><li>Nome fácil de identificar</li><li>Valor mensal ou total</li><li>Duração em meses</li></ul></div><div class="form-card"><form method="POST"><div class="field-grid"><div class="field full"><label>Nome do plano</label><input type="text" name="nome" placeholder="Ex.: Premium" required></div><div class="field"><label>Valor</label><input type="text" name="valor" placeholder="119,90" required></div><div class="field"><label>Duração em meses</label><input type="number" name="duracao_meses" min="1" placeholder="12" required></div></div><div class="form-actions"><a class="btn secondary" href="{{ url_for('listar_planos') }}">Cancelar</a><button class="btn success" type="submit">Cadastrar plano</button></div></form></div></section>
 {% endblock %}

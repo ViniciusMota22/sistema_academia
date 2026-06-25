@@ -1,41 +1,32 @@
 {% extends "base.html" %}
-{% block title %}Planos{% endblock %}
+{% block title %}Planos - Sistema Academia{% endblock %}
+{% block page_title %}Planos{% endblock %}
 {% block content %}
-<div class="page-header">
-    <div>
-        <h1>Planos da Academia</h1>
-        <p>Cadastre e gerencie os planos disponíveis.</p>
-    </div>
-    <a class="btn success" href="{{ url_for('novo_plano') }}">Cadastrar Plano</a>
-</div>
-
-<div class="table-box">
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Valor</th>
-                <th>Duração</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for plano in planos %}
-            <tr>
-                <td>{{ plano.id }}</td>
-                <td>{{ plano.nome }}</td>
-                <td>R$ {{ '%.2f'|format(plano.valor) }}</td>
-                <td>{{ plano.duracao_meses }} mês(es)</td>
-                <td class="actions">
-                    <a class="btn small primary" href="{{ url_for('editar_plano', id=plano.id) }}">Editar</a>
-                    <a class="btn small danger" href="{{ url_for('excluir_plano', id=plano.id) }}" onclick="return confirmarExclusao('Deseja realmente excluir este plano?')">Excluir</a>
-                </td>
-            </tr>
+<section class="page-intro"><div><span class="eyebrow dark-eyebrow">Configuração comercial</span><h1>Planos da academia</h1><p>Gerencie valores, duração e alunos vinculados a cada plano.</p></div><a class="btn success" href="{{ url_for('novo_plano') }}"><img src="{{ url_for('static', filename='img/ui/plus.svg') }}" alt="">Cadastrar plano</a></section>
+<div class="cards-list plan-webp-grid">
+{% for plano in planos %}
+    {% set nome_plano = plano.nome|lower %}
+    <article class="plan-card plan-card-webp {% if 'vip' in nome_plano %}tier-vip{% elif 'premium' in nome_plano %}tier-premium{% else %}tier-basic{% endif %}">
+        <div class="plan-art-wrap">
+            {% if 'vip' in nome_plano %}
+                <img class="plan-art" src="{{ url_for('static', filename='img/webp/plano-vip.webp') }}" alt="Plano VIP">
+            {% elif 'premium' in nome_plano %}
+                <img class="plan-art" src="{{ url_for('static', filename='img/webp/plano-premium.webp') }}" alt="Plano Premium">
             {% else %}
-            <tr><td colspan="5">Nenhum plano cadastrado.</td></tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                <img class="plan-art" src="{{ url_for('static', filename='img/webp/plano-basico.webp') }}" alt="Plano Básico">
+            {% endif %}
+        </div>
+        <span class="plan-label">Plano #{{ plano.id }}</span>
+        <h2>{{ plano.nome }}</h2>
+        <div class="plan-price"><small>R$</small><strong>{{ '%.2f'|format(plano.valor) }}</strong></div>
+        <ul>
+            <li><img src="{{ url_for('static', filename='img/ui/check.svg') }}" alt="">Duração: {{ plano.duracao_meses }} mês(es)</li>
+            <li><img src="{{ url_for('static', filename='img/ui/check.svg') }}" alt="">{{ plano.alunos|length }} aluno(s) vinculado(s)</li>
+        </ul>
+        <div class="plan-actions"><a class="btn primary" href="{{ url_for('editar_plano', id=plano.id) }}">Editar</a><button class="btn danger js-delete" data-delete-url="{{ url_for('excluir_plano', id=plano.id) }}" data-delete-message="Deseja excluir o plano {{ plano.nome }}?">Excluir</button></div>
+    </article>
+{% else %}
+    <div class="empty-panel wide-empty visual-empty large-empty"><img src="{{ url_for('static', filename='img/webp/plano-basico.webp') }}" alt="Plano"><div><strong>Nenhum plano cadastrado</strong><small>Cadastre seu primeiro plano para organizar as opções da academia.</small></div></div>
+{% endfor %}
 </div>
 {% endblock %}

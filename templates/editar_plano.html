@@ -1,20 +1,6 @@
 {% extends "base.html" %}
-{% block title %}Editar Plano{% endblock %}
+{% block title %}Editar Plano - Sistema Academia{% endblock %}
+{% block page_title %}Editar plano{% endblock %}
 {% block content %}
-<div class="form-card">
-    <h1>Editar Plano</h1>
-    <form method="POST">
-        <label>Nome do plano</label>
-        <input type="text" name="nome" value="{{ plano.nome }}" required>
-
-        <label>Valor</label>
-        <input type="text" name="valor" value="{{ plano.valor }}" required>
-
-        <label>Duração em meses</label>
-        <input type="number" name="duracao_meses" value="{{ plano.duracao_meses }}" min="1" required>
-
-        <button class="btn primary" type="submit">Atualizar</button>
-        <a class="btn secondary" href="{{ url_for('listar_planos') }}">Cancelar</a>
-    </form>
-</div>
+<section class="form-layout"><div class="form-side amber-side"><div class="form-side-icon amber"><img src="{{ url_for('static', filename='img/webp/halter-3d.webp') }}" alt=""></div><span>Atualização do plano</span><h1>{{ plano.nome }}</h1><p>Edite o nome, valor e duração do plano selecionado.</p><ul><li>ID do plano: #{{ plano.id }}</li><li>{{ plano.alunos|length }} aluno(s) vinculado(s)</li><li>Duração atual: {{ plano.duracao_meses }} mês(es)</li></ul></div><div class="form-card"><form method="POST"><div class="field-grid"><div class="field full"><label>Nome do plano</label><input type="text" name="nome" value="{{ plano.nome }}" required></div><div class="field"><label>Valor</label><input type="text" name="valor" value="{{ plano.valor }}" required></div><div class="field"><label>Duração em meses</label><input type="number" name="duracao_meses" value="{{ plano.duracao_meses }}" min="1" required></div></div><div class="form-actions"><a class="btn secondary" href="{{ url_for('listar_planos') }}">Cancelar</a><button class="btn primary" type="submit">Salvar alterações</button></div></form></div></section>
 {% endblock %}
